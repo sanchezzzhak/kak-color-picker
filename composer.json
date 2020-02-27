@@ -16,13 +16,7 @@
     ],
     "require": {
         "yiisoft/yii2": "*",
-        "npm-asset/simonwep--pickr": "^1.5"
-    },
-    "extra": {
-        "asset-installer-paths": {
-            "npm-asset-library": "vendor/npm",
-            "bower-asset-library": "vendor/bower"
-        }
+        "@simonwep/pickr": "^1.5"
     },
     "autoload": {
         "psr-4": {
