@@ -15,7 +15,7 @@
         }
     ],
     "require": {
-        "simonwep/pickr": "*"
+        "simonwep/pickr": "master"
     },
     "autoload": {
         "psr-4": {
