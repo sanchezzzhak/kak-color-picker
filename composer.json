@@ -15,7 +15,7 @@
         }
     ],
     "require": {
-        "simonwep/pickr": "master"
+        "simonwep/pickr": "1.5.1"
     },
     "autoload": {
         "psr-4": {
@@ -24,8 +24,19 @@
     },
      "repositories": [
         {
-          "type": "git",
-          "url":  "https://github.com/Simonwep/pickr.git"
+           "type": "package",
+            "package": {
+                "name": "simonwep/pickr",
+                "version": "1.5.1",
+                "dist": {
+                    "url": "https://github.com/Simonwep/pickr/archive/1.5.1.zip",
+                    "type": "zip"
+                },
+                "source": {
+                    "url": "ttps://github.com/Simonwep/pickr.git",
+                    "type": "git",
+                }
+            }  
         }
     ]
 }
