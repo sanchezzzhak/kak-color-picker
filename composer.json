@@ -33,7 +33,7 @@
                     "type": "zip"
                 },
                 "source": {
-                    "url": "ttps://github.com/Simonwep/pickr.git",
+                    "url": "https://github.com/Simonwep/pickr.git",
                     "type": "git"
                 }
             }  
