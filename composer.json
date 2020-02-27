@@ -14,29 +14,9 @@
             "email": "sanchezzzhak@ya.ru"
         }
     ],
-    "require": {
-        "simonwep/pickr": "1.5.1"
-    },
     "autoload": {
         "psr-4": {
             "kak\\widgets\\colorpicker\\": "src"
         }
-    },
-     "repositories": [
-        {
-           "type": "package",
-           "package": {
-                "name": "simonwep/pickr",
-                "version": "1.5.1",
-                "dist": {
-                    "url": "https://github.com/Simonwep/pickr/archive/1.5.1.zip",
-                    "type": "zip"
-                },
-                "source": {
-                    "url": "https://github.com/Simonwep/pickr.git",
-                    "type": "git"
-                }
-            }  
-        }
-    ]
+    }
 }
