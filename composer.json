@@ -15,8 +15,7 @@
         }
     ],
     "require": {
-        "yiisoft/yii2": "*",
-        "@simonwep/pickr": "^1.5"
+        "simonwep/pickr": "^1.5"
     },
     "autoload": {
         "psr-4": {
