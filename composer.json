@@ -4,6 +4,10 @@
     "type": "library",
     "keywords": ["yii2","color picker yii2","kak color picker"],
     "license": "MIT",
+    "support": {
+      "issues": "https://github.com/sanchezzzhak/kak-color-picker/issues?state=open",
+      "source": "https://github.com/sanchezzzhak/kak-color-picker"
+    },
     "authors": [
         {
             "name": "Tutik Alexsandr",
@@ -11,7 +15,7 @@
         }
     ],
     "require": {
-        "yiisoft/yii2": ">=2.0.12",
+        "yiisoft/yii2": ">*",
         "npm-asset/simonwep--pickr": "^1.5"
     },
     "extra": {
