@@ -25,7 +25,7 @@
      "repositories": [
         {
            "type": "package",
-            "package": {
+           "package": {
                 "name": "simonwep/pickr",
                 "version": "1.5.1",
                 "dist": {
@@ -34,7 +34,7 @@
                 },
                 "source": {
                     "url": "ttps://github.com/Simonwep/pickr.git",
-                    "type": "git",
+                    "type": "git"
                 }
             }  
         }
