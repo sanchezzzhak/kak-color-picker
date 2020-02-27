@@ -15,11 +15,17 @@
         }
     ],
     "require": {
-        "simonwep/pickr": "^1.5"
+        "npm-asset/simonwep--pickr": "^1.5"
     },
     "autoload": {
         "psr-4": {
             "kak\\widgets\\colorpicker\\": "src"
         }
-    }
+    },
+     "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ]
 }
