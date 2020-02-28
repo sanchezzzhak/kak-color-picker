@@ -8,7 +8,7 @@ use yii\web\AssetBundle;
  */
 class InputColorAsset extends AssetBundle
 {
-    public $sourcePath = '@vendor/kak/colorpicker/assets';
+    public $sourcePath = '@vendor/kak/colorpicker/assets/colorpicker';
 
     public $depends = [
         'yii\web\JqueryAsset',

@@ -8,7 +8,7 @@ use yii\web\AssetBundle;
  */
 class PickrAsset extends AssetBundle
 {
-    public $sourcePath = '@npm/simonwep--pickr/dist';
+    public $sourcePath = '@vendor/kak/colorpicker/assets/pickr';
     public $js = [
         'pickr.min.js'
     ];
