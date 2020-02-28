@@ -14,14 +14,17 @@ class InputColor extends InputWidget
 
     public $theme = 'monolith';
     public $clientOptions = [];
-    
+
+    public $addonPreview = true;
+
+
     public function run()
     {
         $this->registerAssets();
         $this->renderInput();
     }
 
-    public function renderInput() : void
+    public function renderInput(): void
     {
         $isModel = $this->hasModel();
         if (!$isModel && $this->value === null) {
@@ -32,7 +35,13 @@ class InputColor extends InputWidget
             ? Html::activeInput('text', $this->model, $this->attribute, $this->options)
             : Html::textInput($this->name, $this->value, $this->options);
 
-        echo sprintf('<div class="input-group input-color">%s<span class="input-group-addon">&nbsp;&nbsp;&nbsp;</span></div>', $input);
+        $template = '<div class="input-group input-color">%s%s</div>';
+        if ($this->addonPreview) {
+            $addon = '<span class="input-group-addon">&nbsp;&nbsp;&nbsp;</span>';
+            echo sprintf($template, $input, $addon);
+        } else {
+            echo sprintf($template, $input, '');
+        }
     }
 
     public function registerAssets(): void
@@ -40,18 +49,24 @@ class InputColor extends InputWidget
         $id = $this->options['id'];
 
         $view = $this->getView();
-        
+
+        InputColorAsset::register($view);
         PickrAsset::register($view)->setTheme($this->theme);
-        InputColor::register($view);
-        $view->registerJs($this->getJsPluginCode(), $view::POS_READY, 'input-widget-color-init');
-        
+
         $clientOptions = Json::htmlEncode($this->clientOptions);
-        
-        $view->registerJs("jQuery('#{$id}').kakColorPicker({$clientOptions});", $view::POS_READY, sprintf(
+        $addonPreview = $this->boolToStr($this->addonPreview);
+
+        $view->registerJs("jQuery('#{$id}').kakColorPicker({
+            clientOptions: {$clientOptions},
+            addonPreview: {$addonPreview},
+            theme: \"{$this->theme}\"
+        });", $view::POS_READY, sprintf(
             "input-color-%s", $id
         ));
     }
 
-
-
+    protected function boolToStr($var)
+    {
+        return $var === true ? 'true' : 'false';
+    }
 }
