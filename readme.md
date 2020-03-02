@@ -16,9 +16,13 @@ Usage
 -
 Once the extension is installed, simply use it in your code by  :
 ```php
-
+<?= $form->field($model, 'color')->widget(InputColor::class, [
+   'clientOptions' => [],
+   'theme' => InputColor::THEME_MONOLITH,  // default theme
+   'addonPreview' => true,  // displays a preview of the color next to the {input}
+   // 'addonPreview' => false, // displays the {input} preview in the background and inverts the text color
+]); ?>
 ```
-
 
 clientOptions 
 see js lib https://github.com/Simonwep/pickr#options
