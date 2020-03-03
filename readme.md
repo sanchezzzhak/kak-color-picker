@@ -8,6 +8,7 @@ Either run
 php composer.phar require --prefer-dist kak/colorpicker "*"
 ```
 
+# Input Color
 Preview
 -
 <img src="https://docs.google.com/drawings/d/e/2PACX-1vRCbg40xLkOm-8lAMJUGgEuhkxRDEen1LwsgKd4Rv9zhXz5nH3w0tGfROMHfJhq8jpNmAOIyGFuYYpP/pub?w=314&h=542">
@@ -26,3 +27,14 @@ Once the extension is installed, simply use it in your code by  :
 
 clientOptions 
 see js lib https://github.com/Simonwep/pickr#options
+
+
+# Color Gradient Builder
+Preview
+-
+<img src="https://docs.google.com/drawings/d/e/2PACX-1vT2rLoerezrSncmdxVtEOepJofNYt5-2sUZ81DtXF_hW7IgoJisKYQk-UX56xg0vSgpaRKsnmfkLkb7/pub?w=672&h=476">
+
+
+
+
+
