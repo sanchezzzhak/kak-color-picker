@@ -19,7 +19,7 @@
     }
   ],
   "require": {
-    "bower-asset/displacejs": ">=1.4.1"
+    "npm-asset/displacejs": ">=1.4.1"
   },
   "extra": {
     "asset-installer-paths": {
