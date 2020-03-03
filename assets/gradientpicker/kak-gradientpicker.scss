@@ -1,0 +1,22 @@
+.kak-input-gradient {
+  .ig-preview-color {
+    position: relative;
+    width: 100%;
+    display: block;
+    height: 44px;
+    border: 2px solid #dddddd;
+    padding: 2px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+
+    .ig-ranges-color {
+      position: absolute;
+      top: 19px;
+      left: 20px;
+      right: 24px;
+      height: 62px;
+      -webkit-tap-highlight-color: transparent;
+      display: block;
+    }
+  }
+}

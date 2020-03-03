@@ -14,6 +14,10 @@ class InputGradientAsset extends AssetBundle
         'yii\web\JqueryAsset',
     ];
 
+    public $css = [
+        'kak-gradientpicker.css'
+    ];
+    
     public $js = [
         'kak-gradientpicker.js'
     ];
