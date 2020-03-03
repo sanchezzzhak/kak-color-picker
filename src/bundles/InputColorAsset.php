@@ -1,6 +1,7 @@
 <?php namespace kak\widgets\colorpicker\bundles;
 
 use yii\web\AssetBundle;
+use yii\web\JqueryAsset;
 
 /**
  * Class InputColorAsset
@@ -11,7 +12,7 @@ class InputColorAsset extends AssetBundle
     public $sourcePath = '@vendor/kak/colorpicker/assets/colorpicker';
 
     public $depends = [
-        'yii\web\JqueryAsset',
+        JqueryAsset::class,
     ];
 
     public $js = [

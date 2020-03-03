@@ -8,7 +8,7 @@ use kak\widgets\colorpicker\bundles\InputGradientAsset;
 
 class InputGradient extends InputWidget
 {
-    public $theme = '';
+    public $theme = 'monolith';
 
     public $clientOptions = [];
 
@@ -44,7 +44,7 @@ class InputGradient extends InputWidget
             'class' => 'btn btn-default ig-btn-add'
         ]);
 
-        echo Html::tag('div',"$input $contanPreview $contantControls", [
+        echo Html::tag('div',"$input $contantControls $contanPreview", [
             'class' => 'kak-input-gradient'
         ]);
     }
