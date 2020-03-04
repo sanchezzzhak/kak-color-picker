@@ -77,10 +77,12 @@ class InputGradient extends InputWidget
         jQuery('#{$id}-widget').kakGradientPicker({
             clientOptions: {$clientOptions},
             theme: \"{$this->theme}\",
-            items: {$itemsOptions},
-        }).on('change', function(event, data){
-           jQuery('#{$id}').val(JSON.stringify(data));
-        });";
+            items: {$itemsOptions}
+        }).on('gradient:change', function(event, data){
+           jQuery('#{$id}').val(JSON.stringify(data)).trigger('change');
+        });
+        ";
+
         $view->registerJs($jsCode, $view::POS_READY, sprintf(
             "input-gradien-%s", $id
         ));

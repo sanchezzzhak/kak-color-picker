@@ -59,7 +59,7 @@ see js lib https://github.com/Simonwep/pickr#options
 
 #### JS Events
 
-* `change` (colors)
+* `gradient:change` (colors)
     * format argument event
     ```js 
     [{

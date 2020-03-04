@@ -265,7 +265,7 @@
 		result.push({color: hex, stop: percent});
 	  });
 	  
-	  this.element.trigger('change', {colors: result});
+	  this.element.trigger('gradient:change', {colors: result});
 	  this.previewContainer.css('background-image', 'linear-gradient(90deg, ' + colors.join(',') + ')');
 	},
 	
