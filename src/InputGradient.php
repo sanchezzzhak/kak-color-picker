@@ -10,15 +10,20 @@ class InputGradient extends InputWidget
 {
     public $theme = 'monolith';
 
+    public $createLabel = 'add';
+    public $createOptions = [
+        'class' => 'btn btn-dark',
+    ];
+
+
     public $clientOptions = [];
 
 
     public function run()
     {
-        $this->registerAssets();
         $this->renderInput();
+        $this->registerAssets();
     }
-
 
     public function renderInput(): void
     {
@@ -40,11 +45,12 @@ class InputGradient extends InputWidget
             'class' => 'ig-preview-color'
         ]);
 
-        $contantControls = Html::button('add',  [
-            'class' => 'btn btn-default ig-btn-add'
-        ]);
+        Html::addCssClass($this->createOptions, 'ig-btn-add');
+        $contantControls = Html::button($this->createLabel, $this->createOptions);
 
-        echo Html::tag('div',"$input $contantControls $contanPreview", [
+        $id = $this->options['id'];
+        echo Html::tag('div', "$input $contantControls $contanPreview", [
+            'id' => $id . "-widget",
             'class' => 'kak-input-gradient'
         ]);
     }
@@ -53,17 +59,29 @@ class InputGradient extends InputWidget
     public function registerAssets(): void
     {
         $id = $this->options['id'];
-
         $view = $this->getView();
 
         InputGradientAsset::register($view);
         PickrAsset::register($view)->setTheme($this->theme);
         $clientOptions = Json::htmlEncode($this->clientOptions);
 
-        $view->registerJs("jQuery('#{$id}').kakGradientPicker({
+        $items = [];
+        $value = $this->hasModel() ? $this->model->{$this->attribute} : $this->value;
+        if ((string)$value !== '') {
+            $config = Json::decode($value);
+            $items = $config['colors'] ?? [];
+        }
+
+        $itemsOptions = Json::htmlEncode($items);
+        $jsCode = "
+        jQuery('#{$id}-widget').kakGradientPicker({
             clientOptions: {$clientOptions},
-            theme: \"{$this->theme}\"
-        });", $view::POS_READY, sprintf(
+            theme: \"{$this->theme}\",
+            items: {$itemsOptions},
+        }).on('change', function(event, data){
+           jQuery('#{$id}').val(JSON.stringify(data));
+        });";
+        $view->registerJs($jsCode, $view::POS_READY, sprintf(
             "input-gradien-%s", $id
         ));
     }

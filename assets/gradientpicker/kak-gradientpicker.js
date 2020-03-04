@@ -15,6 +15,15 @@
   'use strict';
   
   
+  var SELECTORS = {
+	PREVIREW: '.ig-preview-color',
+	RANGEBAR: '.ig-ranges-color',
+	CREATE_POINT: '.ig-btn-add',
+	POINT: '.ig-gradient-point'
+	
+  };
+  
+  
   var DEFAULT_OPTIONS = {
 	useAsButton: true,
 	swatches: [
@@ -116,9 +125,10 @@
   // **********************************
   
   var kakGradientPicker = function (element, options) {
-	this.element = $(element).closest('.kak-input-gradient');
-	this.previewContainer = this.element.find('.ig-preview-color');
-	this.rangesContainer = this.element.find('.ig-ranges-color');
+	this.element = $(element);
+	
+	this.previewContainer = this.element.find(SELECTORS.PREVIREW);
+	this.rangesContainer = this.element.find(SELECTORS.RANGEBAR);
 	
 	this.options = options === undefined ? {} : options;
 	this.ranges = [];
@@ -137,14 +147,38 @@
 	  this.create();
 	},
 	destroy: function () {
+	  var that = this;
+	  if (this.rangesContainer) {
+		this.rangesContainer.find(SELECTORS.POINT).each(function () {
+		  var point = $(this);
+		  that.onRemovePoint(point, true);
+		})
+	  }
 	},
 	create: function () {
-	  var createBtn = this.element.find('.ig-btn-add');
-	  createBtn.on('click', this.onClickCreatePoint.bind(this))
+	  this.element.find(SELECTORS.CREATE_POINT)
+	  .on('click', this.onClickCreatePoint.bind(this));
+	  this.initPoints();
 	},
 	
-	createPoint: function () {
-	  return $(
+	initPoints: function () {
+	  if (this.options.items && this.options.items.length > 0) {
+		for (var i = 0, l = this.options.items.length; i < l; i++) {
+		  var item = this.options.items[i];
+		  this.createPoint(item.color, item.stop);
+		}
+	  }
+	  
+	  if (this.options.items && this.options.items.length < 2) {
+		for (var i = this.options.items.length, l = 2; i < l; i++) {
+		  this.createPoint('#000000', i > 0 ? 100 / i : 0);
+		}
+	  }
+	},
+	
+	
+	createPoint: function (color, percent) {
+	  var point = $(
 		'<div class="ig-gradient-point">' +
 		'<a hreg="javascript:;" class="ig-gradient-point-remove">&times;</a>' +
 		'<div class="ig-gradient-point-bg"></div>' +
@@ -155,6 +189,14 @@
 		'</label>' +
 		'</div>'
 	  );
+	  this.rangesContainer.append(point);
+	  
+	  this.createDrag(point);
+	  this.createChangeColorpiker(point, color);
+	  this.createChangePercent(point, percent);
+	  this.createRemove(point);
+	  
+	  this.onUpdatePoint(point);
 	},
 	
 	getPerventMovePointX(el, dimension) {
@@ -171,12 +213,27 @@
 	  return percent;
 	},
 	
-	onRemovePoint(point) {
+	onRemovePoint(point, force) {
+	  if (!force) {
+		if (this.rangesContainer.find(SELECTORS.POINT).length <= 2) {
+		  return;
+		}
+	  }
+	  
 	  var pickr = point.data('__pickr');
 	  pickr && pickr.destroyAndRemove();
+	  
 	  var drag = point.data('__displacejs');
 	  drag && drag.destroy();
+	  
+	  
+	  this.getInputPercentElementByPoint(point).off('change', this.onChangePercentPoint.bind(this, point));
+	  
 	  point.remove();
+	  
+	  if (!force) {
+		this.onUpdateMainPreview();
+	  }
 	},
 	
 	onChangePercentPoint: function (point) {
@@ -191,20 +248,25 @@
 	  this.onUpdatePoint($(el));
 	},
 	
-	onUpdateMainPreview: function(){
+	onUpdateMainPreview: function () {
 	  var colors = [];
+	  var result = [];
 	  
-	  this.rangesContainer.find('.ig-gradient-point')
-	  .sort(function(a, b){
+	  this.rangesContainer.find(SELECTORS.POINT)
+	  .sort(function (a, b) {
 		return parseInt($(a).attr('data-percent')) - parseInt($(b).attr('data-percent'));
-	  }).each(function(){
-	    var point = $(this);
-	    var hex = point.attr('data-color');
-	    var percent = point.attr('data-percent');
+	  }).each(function () {
+		var point = $(this);
+		var hex = point.attr('data-color');
+		var percent = point.attr('data-percent');
+		
+		
 		colors.push(hex + ' ' + percent + '%');
+		result.push({color: hex, stop: percent});
 	  });
 	  
-	  this.previewContainer.css('background-image', 'linear-gradient(90deg, '+ colors.join(',') +')');
+	  this.element.trigger('change', {colors: result});
+	  this.previewContainer.css('background-image', 'linear-gradient(90deg, ' + colors.join(',') + ')');
 	},
 	
 	onUpdatePoint: function (point) {
@@ -227,7 +289,7 @@
 	
 	createRemove: function (point) {
 	  var remove = this.getRemoteElementByPoint(point);
-	  remove.on('click', this.onRemovePoint.bind(this, point));
+	  remove.on('click', this.onRemovePoint.bind(this, point, false));
 	},
 	
 	getColorPreviewElementByPoint(point) {
@@ -246,17 +308,27 @@
 	  return point.find('.ig-gradient-point-percent');
 	},
 	
-	createChangePercent(point) {
+	createChangePercent(point, percent) {
 	  var input = this.getInputPercentElementByPoint(point);
 	  input.on('change', this.onChangePercentPoint.bind(this, point));
+	  
+	  if (percent !== undefined) {
+		var percentFix = parseInt(percent).toFixed(0);
+		point.attr('data-percent', percentFix).css('left', percent + '%');
+		input.val(percentFix);
+	  }
 	},
 	
-	createChangeColorpiker: function (point) {
+	createChangeColorpiker: function (point, defaultVal) {
+	  
+	  if (!defaultVal) {
+		defaultVal = '#000000';
+	  }
 	  var input = this.getInputPercentElementByPoint(point);
 	  var pickr = Pickr.create($.extend({
 		el: input.get(0),
-		theme: 'monolith', // or 'monolith', or 'nano' or classic
-		// default: defaultVal,
+		theme: this.options.theme !== undefined ? this.options.theme : 'monolith', // or 'monolith', or 'nano' or classic
+		default: defaultVal,
 	  }, DEFAULT_OPTIONS, this.options.clientOptions));
 	  
 	  point.data('__pickr', pickr);
@@ -269,15 +341,11 @@
 		this.onUpdatePoint(point);
 	  }, this));
 	  
+	  pickr.setColor(defaultVal);
 	},
 	
 	onClickCreatePoint: function (event) {
-	  var point = this.createPoint();
-	  this.rangesContainer.append(point);
-	  this.createDrag(point);
-	  this.createChangeColorpiker(point);
-	  this.createChangePercent(point);
-	  this.createRemove(point);
+	  this.createPoint('#000000', 0);
 	}
   };
   
