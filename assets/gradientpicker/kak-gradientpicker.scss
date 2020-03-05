@@ -33,7 +33,6 @@
           border: 2px solid #dddddd;
           padding: 2px;
           border-radius: 6px;
-          z-index: 1;
           color: #dddddd;
           text-align: center;
           font-size: 2.6em;
@@ -50,14 +49,12 @@
           border: 2px solid #dddddd;
           padding: 2px;
           border-radius: 6px;
-          z-index: 1;
 
           input {
             border-radius: 6px;
             position: absolute;
             top: 0;
             left: 0px;
-            z-index: 1;
             background: transparent;
             border: none;
             width: 100%;

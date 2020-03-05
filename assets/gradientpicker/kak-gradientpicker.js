@@ -130,12 +130,16 @@
 	this.previewContainer = this.element.find(SELECTORS.PREVIREW);
 	this.rangesContainer = this.element.find(SELECTORS.RANGEBAR);
 	
+	this.changeDelayTimer = null;
+	
 	this.options = options === undefined ? {} : options;
 	this.ranges = [];
 	if (this.options.clientOptions == undefined) {
 	  this.options.clientOptions = {};
 	}
-	
+	if (this.options.changeDelayTimer == undefined) {
+	  this.options.changeDelayTimer = 300;
+	}
 	this.init();
   };
   
@@ -249,6 +253,7 @@
 	},
 	
 	onUpdateMainPreview: function () {
+	  var that = this;
 	  var colors = [];
 	  var result = [];
 	  
@@ -259,14 +264,17 @@
 		var point = $(this);
 		var hex = point.attr('data-color');
 		var percent = point.attr('data-percent');
-		
-		
 		colors.push(hex + ' ' + percent + '%');
 		result.push({color: hex, stop: percent});
 	  });
 	  
-	  this.element.trigger('gradient:change', {colors: result});
 	  this.previewContainer.css('background-image', 'linear-gradient(90deg, ' + colors.join(',') + ')');
+	  
+	  clearTimeout(this.changeDelayTimer);
+	  this.changeDelayTimer = setTimeout(function () {
+		that.element.trigger('gradient:change', {colors: result});
+	  }, this.options.changeDelayTimer);
+	  
 	},
 	
 	onUpdatePoint: function (point) {
