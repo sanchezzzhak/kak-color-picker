@@ -175,11 +175,20 @@
 	  
 	  if (this.options.items && this.options.items.length < 2) {
 		for (var i = this.options.items.length, l = 2; i < l; i++) {
-		  this.createPoint('#000000', i > 0 ? 100 / i : 0);
+		  this.createPoint(this.getRandomColor(), i > 0 ? 100 / i : 0);
 		}
 	  }
 	},
 	
+	getRandomColor: function () {
+	  var letters = "0123456789ABCDEF";
+	  var color = [];
+	  color.push('#')
+	  for (var i = 0; i < 6; i++){
+		color.push(letters[(Math.floor(Math.random() * 16))]);
+	  }
+	  return color.join('');
+	},
 	
 	createPoint: function (color, percent) {
 	  var point = $(
@@ -221,9 +230,7 @@
 	  var drag = point.data('__displacejs');
 	  drag && drag.destroy();
 	  
-	  
 	  this.getInputPercentElementByPoint(point).off('change', this.onChangePercentPoint.bind(this, point));
-	  
 	  point.remove();
 	  
 	  if (!force) {
@@ -324,15 +331,14 @@
 	},
 	
 	createChangeColorpiker: function (point, defaultVal) {
-	  
-	  if (!defaultVal) {
+	  if (defaultVal === undefined) {
 		defaultVal = '#000000';
 	  }
 	  var input = this.getInputPercentElementByPoint(point);
 	  var pickr = Pickr.create($.extend({
 		el: input.get(0),
-		theme: this.options.theme !== undefined ? this.options.theme : 'monolith', // or 'monolith', or 'nano' or classic
 		default: defaultVal,
+		theme: this.options.theme !== undefined ? this.options.theme : 'monolith', // or 'monolith', or 'nano' or classic
 	  }, DEFAULT_OPTIONS, this.options.clientOptions));
 	  
 	  point.data('__pickr', pickr);
@@ -349,7 +355,7 @@
 	},
 	
 	onClickCreatePoint: function (event) {
-	  this.createPoint('#000000', 0);
+	  this.createPoint(this.getRandomColor(), 0);
 	}
   };
   
