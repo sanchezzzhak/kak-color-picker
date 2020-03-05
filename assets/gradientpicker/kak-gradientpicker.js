@@ -205,16 +205,7 @@
 	
 	getPerventMovePointX(el, dimension) {
 	  var railBounds = getRailBounds(el.parentNode);
-	  var percent = 0;
-	  
-	  if (dimension < railBounds.left) {
-		percent = 0;
-	  } else if (dimension > railBounds.right) {
-		percent = 100;
-	  } else {
-		percent = between((dimension - railBounds.left) / railBounds.width, 0, 1) * 100;
-	  }
-	  return percent;
+	  return between((dimension / railBounds.width), 0, 1) * 100;
 	},
 	
 	onRemovePoint(point, force) {
@@ -289,7 +280,12 @@
 	createDrag: function (point) {
 	  var handle = this.getHandleDragElmentbyPoint(point);
 	  var drag = window.displacejs(point.get(0), {
-		handle: handle.get(0),
+		// constrain: false,
+		// handle: handle.get(0),
+		ignoreFn: function (event) {
+		  return event.target.closest('label') !== null
+			|| event.target.classList.contains('ig-gradient-point-remove');
+		},
 		customMove: this.onMovePoint.bind(this)
 	  });
 	  point.data('__displacejs', drag);
