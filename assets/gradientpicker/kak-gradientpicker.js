@@ -184,7 +184,7 @@
 	  var letters = "0123456789ABCDEF";
 	  var color = [];
 	  color.push('#')
-	  for (var i = 0; i < 6; i++){
+	  for (var i = 0; i < 6; i++) {
 		color.push(letters[(Math.floor(Math.random() * 16))]);
 	  }
 	  return color.join('');
@@ -208,16 +208,24 @@
 	  this.createChangeColorpiker(point, color);
 	  this.createChangePercent(point, percent);
 	  this.createRemove(point);
-	  
 	  this.onUpdatePoint(point);
+	  
+	  point.on('click', this.onClickPoint.bind(this));
 	},
 	
-	getPerventMovePointX(el, dimension) {
+	getPerventMovePointX: function(el, dimension) {
 	  var railBounds = getRailBounds(el.parentNode);
 	  return between((dimension / railBounds.width), 0, 1) * 100;
 	},
 	
-	onRemovePoint(point, force) {
+	onClickPoint: function (event) {
+	  var point = $(event.currentTarget);
+	  var className = 'ig-point-active';
+	  point.siblings().removeClass(className);
+	  point.addClass(className);
+	},
+	
+	onRemovePoint: function (point, force) {
 	  if (!force) {
 		if (this.rangesContainer.find(SELECTORS.POINT).length <= 2) {
 		  return;
@@ -303,7 +311,7 @@
 	  remove.on('click', this.onRemovePoint.bind(this, point, false));
 	},
 	
-	getColorPreviewElementByPoint(point) {
+	getColorPreviewElementByPoint: function(point) {
 	  return point.find('.ig-gradient-point-color');
 	},
 	
@@ -319,7 +327,7 @@
 	  return point.find('.ig-gradient-point-percent');
 	},
 	
-	createChangePercent(point, percent) {
+	createChangePercent: function(point, percent) {
 	  var input = this.getInputPercentElementByPoint(point);
 	  input.on('change', this.onChangePercentPoint.bind(this, point));
 	  

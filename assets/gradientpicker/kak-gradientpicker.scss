@@ -21,6 +21,11 @@
       .ig-gradient-point {
         margin-top: -10px;
         width: 16px;
+        z-index: 0;
+
+        &.ig-point-active {
+          z-index: 1;
+        }
 
         .ig-gradient-point-remove {
           user-select: none;
@@ -38,7 +43,6 @@
           font-size: 2.6em;
           line-height: 0.7em;
         }
-
 
         label {
           position: absolute;

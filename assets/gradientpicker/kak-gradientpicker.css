@@ -17,7 +17,10 @@
     display: block; }
     .kak-input-gradient .ig-preview-color .ig-ranges-color .ig-gradient-point {
       margin-top: -10px;
-      width: 16px; }
+      width: 16px;
+      z-index: 0; }
+      .kak-input-gradient .ig-preview-color .ig-ranges-color .ig-gradient-point.ig-point-active {
+        z-index: 1; }
       .kak-input-gradient .ig-preview-color .ig-ranges-color .ig-gradient-point .ig-gradient-point-remove {
         user-select: none;
         cursor: pointer;
